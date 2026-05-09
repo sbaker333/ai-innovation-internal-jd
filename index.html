@@ -11,7 +11,7 @@
 :root {
   --lr-green: #32DB86;
   --lr-green-02: #DAFBE7;
-  --lr-green-08: #33DB87;
+  --lr-green-08: #7CE6A7;
   --lr-green-10: #24A76A;
   --lr-green-12: #16774E;
   --lr-green-14: #094934;
@@ -32,6 +32,10 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn-primary, .cta-card, .peek-stack * { transition: none !important; animation: none !important; }
+}
 body {
   font-family: var(--font-body);
   font-size: 18px;
@@ -85,7 +89,7 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   gap: 24px;
 }
 .wordmark {
-  font-family: var(--font-body);
+  font-family: var(--font-brand);
   font-weight: 600;
   font-size: 16px;
   color: var(--lr-black);
@@ -183,6 +187,32 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.peek-stack {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+}
+.peek-stack .peek-card-back {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 100%;
+  max-width: 360px;
+  background: var(--lr-white);
+  border: 1px solid var(--lr-cool-2);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+  transform: scale(0.96);
+  transform-origin: top left;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+}
+.peek-stack .peek-card {
+  position: relative;
+  z-index: 1;
 }
 .peek-card {
   position: relative;
@@ -365,9 +395,14 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   letter-spacing: 0.12em;
   padding: 4px 10px;
   border-radius: 9999px;
-  border: 1px solid var(--lr-green);
+  color: var(--lr-green-12);
+  background: var(--lr-green-02);
+  border: 1px solid var(--lr-green-12);
+}
+.dcard.dark .pill-tag {
   color: var(--lr-green);
-  background: rgba(50, 219, 134, 0.08);
+  background: transparent;
+  border: 1px solid var(--lr-green);
 }
 
 .flow-svg {
@@ -379,11 +414,13 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   z-index: 1;
 }
 
+.mobile-connector { display: none; }
 @media (max-width: 760px) {
   .diagram { grid-template-columns: 1fr; }
   .flow-svg { display: none; }
   .dcol-mid { display: none; }
   .mobile-connector {
+    display: block;
     width: 2px; height: 32px; background: var(--lr-green);
     margin: 0 auto;
   }
@@ -422,7 +459,7 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   text-transform: uppercase;
   color: var(--lr-green-12);
   font-weight: 600;
-  margin-left: calc(160px + 10px);
+  margin-left: calc(36px + 12px + 160px + 10px);
 }
 .matrix {
   display: grid;
@@ -597,6 +634,7 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   color: var(--lr-white);
 }
 .tenet .tsub { font-size: 16px; color: var(--lr-warm-3); margin-top: 10px; max-width: 60ch; }
+.tenet .tline.tline-uppercase { text-transform: uppercase; }
 
 /* ---------- 9. WHO'D THRIVE ---------- */
 .thrive { background: var(--lr-white); padding: clamp(64px, 9vw, 96px) 0; }
@@ -624,7 +662,8 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
 .cta-band h2 { color: var(--lr-black); margin-bottom: 48px; }
 .cta-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto auto;
   gap: 20px;
   max-width: 1000px;
   margin: 0 auto;
@@ -640,6 +679,12 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   transition: background .15s ease, transform .15s ease;
 }
 .cta-card:hover { background: var(--lr-green-14); transform: translateY(-2px); }
+.cta-card.cta-featured {
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
 .cta-card .cclabel {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -658,9 +703,11 @@ h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height:
   margin: 14px 0 8px;
   line-height: 1.2;
 }
+.cta-card.cta-featured .cchead { font-size: 28px; }
 .cta-card .ccsub { font-size: 14px; color: var(--lr-warm-3); }
 @media (max-width: 760px) {
   .cta-cards { grid-template-columns: 1fr; }
+  .cta-card.cta-featured { grid-row: auto; }
 }
 
 /* ---------- 11. FOOTER ---------- */
@@ -681,6 +728,15 @@ footer .inner {
 
 /* ---------- containment for diagram ---------- */
 .diagram-host { position: relative; }
+
+/* ---------- focus-visible ---------- */
+.util .nav a:focus-visible,
+.btn-primary:focus-visible,
+.cta-card:focus-visible {
+  outline: 2px solid var(--lr-green-12);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 </style>
 </head>
 <body>
@@ -717,17 +773,28 @@ Now we need someone to help them build it.</h1>
       </div>
       <div class="hero-right">
         <div class="hero-card-stage">
-          <div class="peek-card">
-            <div class="corner-badge">A</div>
-            <div class="icon-sq"></div>
-            <div class="pc-title">No-code</div>
-            <div class="pc-sub">Web- or app-based</div>
-            <div class="chip-row">
-              <span class="chip">Workshop.ai</span>
-              <span class="chip">Claude Cowork</span>
-              <span class="chip">Lovable.dev</span>
-              <span class="chip">Glean</span>
-              <span class="chip">Google AI Studio</span>
+          <div class="peek-stack">
+            <div class="peek-card-back" aria-hidden="true">
+              <div class="icon-sq"></div>
+              <div class="pc-title">IDE / CLI</div>
+              <div class="pc-sub">Editor- or terminal-based</div>
+              <div class="chip-row">
+                <span class="chip">Cursor</span>
+                <span class="chip">Claude Code</span>
+              </div>
+            </div>
+            <div class="peek-card">
+              <div class="corner-badge">A</div>
+              <div class="icon-sq"></div>
+              <div class="pc-title">No-code</div>
+              <div class="pc-sub">Web- or app-based</div>
+              <div class="chip-row">
+                <span class="chip">Workshop.ai</span>
+                <span class="chip">Claude Code</span>
+                <span class="chip">Lovable.dev</span>
+                <span class="chip">Glean</span>
+                <span class="chip">Google AI Studio</span>
+              </div>
             </div>
           </div>
         </div>
@@ -744,9 +811,9 @@ Now we need someone to help them build it.</h1>
       <h2>AI just empowered a new cohort of builders inside LiveRamp.</h2>
       <p>AI has empowered a new cohort of builders: the commercial team. Sales, customer experience, implementation, SEs, growth strategists, collaboration architects. These users have firsthand knowledge of the things that make our customers' lives difficult, and the barriers that make cleanroom collaboration slow and painful. Previously, these teams were often powerless to build the solutions they needed. The path to fix the issue always required resources from product and engineering, who had no resources to spare.</p>
       <p>Now, tools like Claude Code, Cursor, and Workshop.ai have made it possible for non-engineers with domain expertise to prototype real, working software, often in a matter of hours. Real enough to validate ideas, automate manual work, remove friction, consolidate knowledge, and ultimately create more automated and scalable workflows for our customers and our colleagues.</p>
-      <div class="pull">
-        <p>"Right now, we have the capacity to create these solutions. We're missing an established path to do so safely, with structure, guidance, and purpose. This role is the playbook."</p>
-      </div>
+      <blockquote class="pull">
+        <p>"Right now, we have the capacity to create these solutions. We're missing an established path to do so safely, with structure, guidance, and purpose. This role creates that playbook. And runs it."</p>
+      </blockquote>
     </div>
   </div>
 </section>
@@ -761,11 +828,11 @@ Now we need someone to help them build it.</h1>
       <div class="focus-rows">
         <div class="focus-row">
           <span class="row-label">Empower our team</span>
-          <span class="row-text">Foster AI curiosity and a bias toward building. Design an evolving curriculum. Showcase the art of the possible (and the pitfalls of slop).</span>
+          <span class="row-text">Foster AI curiosity and a bias toward building. Design an evolving curriculum. Showcase the art of the possible (and the pitfalls of slop). Create a no-judgment space to learn and experiment.</span>
         </div>
         <div class="focus-row">
           <span class="row-label">Build high-value tools</span>
-          <span class="row-text">Apps, agents, and systems that target high-friction, high-repetition tasks. Success equals hours saved and speed to customer value.</span>
+          <span class="row-text">Apps, agents, and systems that target high-friction, high-repetition tasks. Success = hours saved, speed to customer value, and velocity of data collaboration.</span>
         </div>
         <div class="focus-row">
           <span class="row-label">Assemble the blocks</span>
@@ -800,7 +867,7 @@ Now we need someone to help them build it.</h1>
             <div class="dc-sub">Web- or app-based</div>
             <div class="chip-row">
               <span class="chip">Workshop.ai</span>
-              <span class="chip">Claude Cowork</span>
+              <span class="chip">Claude Code</span>
               <span class="chip">Lovable.dev</span>
               <span class="chip">Glean</span>
               <span class="chip">Google AI Studio</span>
@@ -849,18 +916,18 @@ Now we need someone to help them build it.</h1>
         <!-- SVG flow lines overlay -->
         <svg class="flow-svg" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
           <!-- A -> 1 -->
-          <path d="M 470 110 C 560 110, 540 80, 620 80" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 440 110 C 560 110, 540 80, 620 80" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
           <!-- A -> 2 -->
-          <path d="M 470 130 C 560 130, 540 280, 620 280" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 440 130 C 560 130, 540 280, 620 280" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
           <!-- B -> 2 -->
-          <path d="M 470 420 C 560 420, 540 320, 620 320" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 440 420 C 560 420, 540 320, 620 320" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
           <!-- B -> 3 -->
-          <path d="M 470 440 C 560 440, 540 520, 620 520" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 440 440 C 560 440, 540 520, 620 520" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
           <!-- termini -->
-          <circle cx="470" cy="110" r="4" fill="#32DB86"/>
-          <circle cx="470" cy="130" r="4" fill="#32DB86"/>
-          <circle cx="470" cy="420" r="4" fill="#32DB86"/>
-          <circle cx="470" cy="440" r="4" fill="#32DB86"/>
+          <circle cx="440" cy="110" r="4" fill="#32DB86"/>
+          <circle cx="440" cy="130" r="4" fill="#32DB86"/>
+          <circle cx="440" cy="420" r="4" fill="#32DB86"/>
+          <circle cx="440" cy="440" r="4" fill="#32DB86"/>
           <circle cx="620" cy="80" r="4" fill="#32DB86"/>
           <circle cx="620" cy="280" r="4" fill="#32DB86"/>
           <circle cx="620" cy="320" r="4" fill="#32DB86"/>
@@ -875,7 +942,7 @@ Now we need someone to help them build it.</h1>
 <section class="matrix-section" id="what">
   <div class="container">
     <div class="eyebrow">What's in scope</div>
-    <h2>Vibe Coding Scope Matrix</h2>
+    <h2>Vibe coding scope matrix</h2>
     <p class="sub">Audience by data sensitivity. Bright cells are active territory. Mid-greens require InfoSec sign-off. The dark cell is engineering-only.</p>
 
     <div class="matrix-right">
@@ -927,7 +994,7 @@ Now we need someone to help them build it.</h1>
 
           <!-- Row 3: Client-Facing -->
           <div class="row-label-cell">Client-Facing</div>
-          <div class="cell soft">
+          <div class="cell" style="background: var(--lr-warm-1); color: var(--lr-warm-6);">
             <span class="cell-mobile-head">Client-Facing · None</span>
             <ul>
               <li>Prototypes</li>
@@ -936,7 +1003,7 @@ Now we need someone to help them build it.</h1>
               <li>Value Calculator</li>
             </ul>
           </div>
-          <div class="cell soft">
+          <div class="cell" style="background: var(--lr-warm-1); color: var(--lr-warm-6);">
             <span class="cell-mobile-head">Client-Facing · Business data</span>
             <ul>
               <li>Implementation project plan</li>
@@ -950,7 +1017,7 @@ Now we need someone to help them build it.</h1>
           <div class="cell oos">
             <span class="cell-mobile-head" style="color: var(--lr-warm-3);">Client-Facing · Customer data</span>
             <div class="oos-title">Out of scope</div>
-            <p>This should be built by the product.</p>
+            <p>This should be built by the product team.</p>
           </div>
         </div>
       </div>
@@ -971,8 +1038,8 @@ Now we need someone to help them build it.</h1>
       </div>
       <div class="stat">
         <div class="stat-num">02</div>
-        <div class="stat-head">Edges per node, month over month</div>
-        <p>More agency-led integrations means more nodes, more edges, more network.</p>
+        <div class="stat-head">Month-over-month growth in edges per node</div>
+        <p>More agency-led integrations mean more nodes, more edges, more network.</p>
       </div>
     </div>
     <div class="divider"></div>
@@ -1030,7 +1097,7 @@ Now we need someone to help them build it.</h1>
       </div>
     </div>
     <div class="partner-row">
-      <div class="plabel">Partnerships · Agency Sales</div>
+      <div class="plabel">Partnerships · Agency-Facing Sales</div>
       <div>
         <div class="pmain">Long-term owners of agency relationships.</div>
         <div class="psub">I'm the catalyst on technical and use-case design. They own the relationship and commercial structure.</div>
@@ -1132,7 +1199,7 @@ Now we need someone to help them build it.</h1>
       <div class="tenet">
         <div class="tn">07</div>
         <div>
-          <div class="tline">WE'LL DO IT LIVE.</div>
+          <div class="tline tline-uppercase">We'll do it live.</div>
           <div class="tsub">Push for in-person and on-the-fly working sessions. It's the best way to learn and teach.</div>
         </div>
       </div>
@@ -1149,7 +1216,7 @@ Now we need someone to help them build it.</h1>
       <ul>
         <li>You can hold a value hypothesis in one hand and a working prototype in the other, and ship the prototype before the hypothesis hardens.</li>
         <li>You see a flashy demo that nobody uses and feel a small, productive embarrassment.</li>
-        <li>You believe vibe coding is a craft, not a shortcut. Slow is smooth, smooth is fast.</li>
+        <li>You believe taste matters in tooling, and you can tell the difference between a useful tool and a clever demo at fifty paces.</li>
         <li>You like being the person who sets the guardrails so other people can move faster.</li>
         <li>You're at home with InfoSec, BT, Product, Engineering, and Sales in the same week.</li>
         <li>You'd rather teach ten people to build than ship ten tools yourself.</li>
@@ -1163,10 +1230,10 @@ Now we need someone to help them build it.</h1>
   <div class="container">
     <h2>Ready? Three ways in.</h2>
     <div class="cta-cards">
-      <a href="#" class="cta-card">
+      <a href="#" class="cta-card cta-featured">
         <div class="cclabel">01 — Apply</div>
         <div class="cchead">Apply via Workday →</div>
-        <div class="ccsub">Internal mobility welcome.</div>
+        <div class="ccsub">Internal mobility welcome. Hiring manager: Scott Baker.</div>
       </a>
       <a href="#" class="cta-card">
         <div class="cclabel">02 — DM</div>

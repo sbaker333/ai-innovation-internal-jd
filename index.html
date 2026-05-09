@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Principal AI Innovation Lead · LiveRamp · Customer Growth & Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lr-green: #32DB86;
+  --lr-green-02: #DAFBE7;
+  --lr-green-08: #33DB87;
+  --lr-green-10: #24A76A;
+  --lr-green-12: #16774E;
+  --lr-green-14: #094934;
+  --lr-white: #FFFFFF;
+  --lr-black: #000000;
+  --lr-warm-1: #F5F4EF;
+  --lr-warm-2: #E6E5E0;
+  --lr-warm-3: #D7D6D1;
+  --lr-warm-5: #5D5B57;
+  --lr-warm-6: #343332;
+  --lr-cool-2: #E3E4E2;
+  --font-brand: 'LiveRamp Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Open Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --container: 1200px;
+  --pad: 48px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--lr-warm-6);
+  background: var(--lr-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; }
+img, svg { display: block; max-width: 100%; }
+ul { list-style: none; }
+
+.container { max-width: var(--container); margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lr-green-12);
+}
+.eyebrow.on-dark { color: var(--lr-green); }
+
+h1, h2, h3 {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+h2 { font-size: clamp(34px, 4.5vw, 48px); letter-spacing: -0.025em; line-height: 1.08; }
+
+/* ---------- 0. UTILITY STRIP ---------- */
+.util {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 56px;
+  background: var(--lr-white);
+  border-bottom: 1px solid var(--lr-cool-2);
+}
+.util .inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 clamp(20px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.wordmark {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--lr-black);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.chip-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--lr-green-12);
+  background: var(--lr-green-02);
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+.util .nav {
+  margin-left: auto;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+.util .nav a {
+  font-size: 14px;
+  color: var(--lr-warm-6);
+  text-decoration: none;
+}
+.util .nav a:hover { color: var(--lr-black); }
+.util .nav a.cta-inline { color: var(--lr-black); font-weight: 600; }
+@media (max-width: 900px) {
+  .util .nav a:not(.cta-inline) { display: none; }
+  .chip-status { display: none; }
+}
+
+/* ---------- 1. HERO ---------- */
+.hero { background: var(--lr-white); padding: clamp(48px, 8vw, 96px) 0 clamp(64px, 9vw, 120px); }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 6fr 4fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+.hero h1 {
+  font-size: clamp(48px, 8vw, 88px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--lr-black);
+  margin: 20px 0 28px;
+  white-space: pre-line;
+}
+.hero .lede {
+  font-weight: 300;
+  font-size: clamp(18px, 1.7vw, 22px);
+  line-height: 1.5;
+  color: var(--lr-warm-6);
+  max-width: 58ch;
+  margin-bottom: 32px;
+}
+.byline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lr-warm-5);
+  margin-bottom: 28px;
+}
+.cta-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-block;
+  background: var(--lr-green);
+  color: var(--lr-black);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: transform .15s ease, background .15s ease;
+}
+.btn-primary:hover { background: var(--lr-green-10); color: var(--lr-white); }
+.btn-secondary {
+  font-size: 15px;
+  color: var(--lr-warm-6);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hero-card-stage {
+  position: relative;
+  background: var(--lr-warm-1);
+  border-radius: 24px;
+  padding: 48px 40px;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.peek-card {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  background: var(--lr-white);
+  border: 1px solid var(--lr-cool-2);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+}
+.peek-card .corner-badge {
+  position: absolute;
+  top: -12px; right: -12px;
+  width: 36px; height: 36px;
+  background: var(--lr-green);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--lr-black);
+  font-weight: 600;
+}
+.peek-card .icon-sq { width: 24px; height: 24px; background: var(--lr-green); border-radius: 5px; margin-bottom: 18px; }
+.peek-card .pc-title { font-family: var(--font-brand); font-weight: 300; font-size: 22px; letter-spacing: -0.02em; color: var(--lr-black); }
+.peek-card .pc-sub { font-size: 14px; color: var(--lr-warm-5); margin-top: 4px; margin-bottom: 18px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--lr-warm-6);
+  background: var(--lr-warm-1);
+  padding: 6px 12px;
+  border-radius: 9999px;
+}
+.chip::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lr-green);
+  flex: 0 0 6px;
+}
+@media (max-width: 760px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { white-space: normal; }
+}
+
+/* ---------- 2. WHY THIS ROLE ---------- */
+.why { background: var(--lr-white); padding: clamp(64px, 9vw, 120px) 0; }
+.why .col { max-width: 720px; margin: 0 auto; }
+.why h2 { color: var(--lr-black); margin: 18px 0 32px; }
+.why p { color: var(--lr-warm-6); max-width: 65ch; margin-bottom: 20px; font-size: 18px; }
+.pull {
+  margin-top: 40px;
+  background: var(--lr-warm-1);
+  border-left: 4px solid var(--lr-green);
+  padding: 32px;
+  border-radius: 0 8px 8px 0;
+}
+.pull p {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  font-size: clamp(22px, 2.4vw, 28px);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--lr-warm-6);
+  max-width: none;
+  margin: 0;
+}
+
+/* ---------- 3. FOCUS 80/20 ---------- */
+.focus { padding: 0; }
+.focus-grid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  min-height: 560px;
+}
+.focus-block { padding: clamp(40px, 5vw, 64px); display: flex; flex-direction: column; }
+.focus-left { background: var(--lr-green); color: var(--lr-black); }
+.focus-right { background: var(--lr-warm-6); color: var(--lr-white); }
+.focus .label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+.focus-left .label { color: var(--lr-black); }
+.focus-right .label { color: var(--lr-green); }
+.bignum {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  font-size: clamp(120px, 16vw, 200px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 24px 0 24px;
+  opacity: 0.95;
+}
+.focus h3 {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  font-size: clamp(22px, 2.4vw, 28px);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 32px;
+  max-width: 22ch;
+}
+.focus-rows { margin-top: auto; display: flex; flex-direction: column; gap: 22px; }
+.focus-row { display: grid; grid-template-columns: 1fr; gap: 6px; }
+.focus-row .row-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.focus-left .focus-row .row-label { color: var(--lr-green-14); }
+.focus-row .row-text { font-size: 16px; line-height: 1.5; }
+.focus-left .focus-row .row-text { color: var(--lr-black); }
+.focus-right p { color: var(--lr-white); font-size: 17px; line-height: 1.55; max-width: 38ch; margin-top: auto; }
+@media (max-width: 760px) {
+  .focus-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- 4. TOOLS vs INFRA ---------- */
+.tvi { background: var(--lr-warm-1); padding: clamp(64px, 9vw, 96px) 0; }
+.tvi h2 { color: var(--lr-black); margin: 16px 0 20px; }
+.tvi h2 em { font-style: italic; font-weight: 300; color: var(--lr-warm-5); }
+.tvi .sub { font-size: 18px; color: var(--lr-warm-6); max-width: 720px; margin-bottom: 56px; }
+
+.diagram {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 100px 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+.dcol { display: flex; flex-direction: column; gap: 24px; }
+.dcol-head {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lr-green-12);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.dcard {
+  position: relative;
+  background: var(--lr-white);
+  border: 1px solid var(--lr-cool-2);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.dcard.dark {
+  background: #0b0b0b;
+  border-color: #0b0b0b;
+  color: var(--lr-white);
+}
+.dcard .icon-sq { width: 24px; height: 24px; background: var(--lr-green); border-radius: 5px; margin-bottom: 18px; }
+.dcard .dc-title { font-family: var(--font-brand); font-weight: 300; font-size: 22px; letter-spacing: -0.02em; color: var(--lr-black); }
+.dcard.dark .dc-title { color: var(--lr-white); }
+.dcard .dc-sub { font-size: 14px; color: var(--lr-warm-5); margin-top: 4px; margin-bottom: 18px; }
+.dcard.dark .dc-sub { color: var(--lr-warm-3); }
+.dcard .dc-body { font-size: 14px; line-height: 1.55; color: var(--lr-warm-6); margin-top: 14px; }
+.dcard.dark .dc-body { color: var(--lr-white); }
+.corner-letter {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 28px; height: 28px;
+  background: var(--lr-warm-2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lr-warm-6);
+}
+.pill-tag {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--lr-green);
+  color: var(--lr-green);
+  background: rgba(50, 219, 134, 0.08);
+}
+
+.flow-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  .diagram { grid-template-columns: 1fr; }
+  .flow-svg { display: none; }
+  .dcol-mid { display: none; }
+  .mobile-connector {
+    width: 2px; height: 32px; background: var(--lr-green);
+    margin: 0 auto;
+  }
+}
+
+/* ---------- 5. SCOPE MATRIX ---------- */
+.matrix-section { background: var(--lr-white); padding: clamp(64px, 9vw, 96px) 0; }
+.matrix-section h2 { color: var(--lr-black); margin: 16px 0 20px; }
+.matrix-section .sub { font-size: 18px; color: var(--lr-warm-6); max-width: 760px; margin-bottom: 48px; }
+
+.matrix-wrap {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+}
+.who-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lr-warm-5);
+  font-weight: 600;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+.matrix-right { display: flex; flex-direction: column; gap: 10px; }
+.what-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lr-green-12);
+  font-weight: 600;
+  margin-left: calc(160px + 10px);
+}
+.matrix {
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr 1fr;
+  gap: 10px;
+}
+.mh {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--lr-warm-5);
+  padding: 12px 14px;
+  line-height: 1.4;
+}
+.mh strong { color: var(--lr-warm-6); font-weight: 600; display: block; margin-bottom: 4px; font-size: 13px; }
+.row-label-cell {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--lr-warm-6);
+  background: var(--lr-warm-1);
+  padding: 16px 18px;
+  border-radius: 8px;
+}
+.cell {
+  border-radius: 8px;
+  padding: 18px 20px;
+  font-size: 13px;
+  line-height: 1.45;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.cell ul { display: flex; flex-direction: column; gap: 6px; }
+.cell li { display: flex; gap: 8px; align-items: flex-start; }
+.cell li::before {
+  content: '';
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  margin-top: 8px;
+  flex: 0 0 5px;
+  background: currentColor;
+  opacity: 0.7;
+}
+.cell.bright { background: var(--lr-green); color: var(--lr-black); }
+.cell.mid { background: var(--lr-green-08); color: var(--lr-black); }
+.cell.soft { background: var(--lr-green-02); color: var(--lr-warm-6); }
+.cell.oos { background: var(--lr-warm-6); color: var(--lr-white); }
+.cell.oos .oos-title { font-family: var(--font-brand); font-weight: 300; font-size: 18px; letter-spacing: -0.02em; margin-bottom: 4px; }
+.cell.oos p { font-size: 13px; line-height: 1.5; }
+
+@media (max-width: 760px) {
+  .matrix-wrap { grid-template-columns: 1fr; }
+  .who-label { display: none; }
+  .what-label { display: none; }
+  .matrix { grid-template-columns: 1fr; }
+  .mh { display: none; }
+  .row-label-cell { display: none; }
+  .cell-mobile-head {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lr-warm-5);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .cell { border-radius: 12px; padding: 20px; font-size: 14px; }
+  .matrix { gap: 16px; }
+}
+.cell-mobile-head { display: none; }
+@media (max-width: 760px) {
+  .cell-mobile-head { display: block; }
+}
+
+/* ---------- 6. NORTH STARS ---------- */
+.stars { background: var(--lr-black); color: var(--lr-white); padding: clamp(64px, 9vw, 96px) 0; }
+.stars h2 { color: var(--lr-white); }
+.stars-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  margin-top: 48px;
+}
+.stat .stat-num { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; color: var(--lr-green); font-weight: 600; }
+.stat .stat-head {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  font-size: clamp(38px, 5vw, 64px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--lr-white);
+  margin: 14px 0 16px;
+}
+.stat p { font-size: 18px; color: var(--lr-warm-3); max-width: 36ch; }
+
+.divider { height: 1px; background: var(--lr-warm-5); margin: 64px 0 40px; opacity: 0.5; }
+
+.pillars { display: flex; flex-direction: column; }
+.pillar {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(215,214,209,0.15);
+  align-items: baseline;
+}
+.pillar:last-child { border-bottom: none; }
+.pillar .pn { font-family: var(--font-mono); font-size: 14px; color: var(--lr-green); font-weight: 600; letter-spacing: 0.04em; }
+.pillar .pbody { display: flex; flex-direction: column; gap: 6px; }
+.pillar .pname { font-family: var(--font-brand); font-weight: 300; font-size: clamp(20px, 2.2vw, 24px); color: var(--lr-white); letter-spacing: -0.02em; }
+.pillar .pmetrics { font-size: 14px; color: var(--lr-warm-3); }
+@media (max-width: 760px) {
+  .stars-top { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ---------- 7. PARTNERSHIPS ---------- */
+.partners { background: var(--lr-white); padding: clamp(64px, 9vw, 96px) 0; }
+.partners h2 { color: var(--lr-black); margin: 18px 0 48px; }
+.partner-row {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--lr-cool-2);
+  align-items: baseline;
+}
+.partner-row:last-child { border-bottom: none; }
+.partner-row .plabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lr-green-12);
+  font-weight: 600;
+}
+.partner-row .pmain {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  font-size: clamp(18px, 2vw, 22px);
+  letter-spacing: -0.02em;
+  color: var(--lr-warm-6);
+  line-height: 1.3;
+}
+.partner-row .psub { font-size: 14px; color: var(--lr-warm-5); margin-top: 6px; }
+@media (max-width: 760px) {
+  .partner-row { grid-template-columns: 1fr; gap: 8px; }
+}
+
+/* ---------- 8. TENETS ---------- */
+.tenets { background: var(--lr-black); color: var(--lr-white); padding: clamp(64px, 9vw, 96px) 0; }
+.tenets h2 { color: var(--lr-white); margin: 18px 0 64px; }
+.tenet-list { display: flex; flex-direction: column; gap: 48px; }
+.tenet { display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: baseline; }
+.tenet .tn {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--lr-green);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.tenet .tline {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  font-size: clamp(24px, 3.2vw, 38px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--lr-white);
+}
+.tenet .tsub { font-size: 16px; color: var(--lr-warm-3); margin-top: 10px; max-width: 60ch; }
+
+/* ---------- 9. WHO'D THRIVE ---------- */
+.thrive { background: var(--lr-white); padding: clamp(64px, 9vw, 96px) 0; }
+.thrive .col { max-width: 760px; margin: 0 auto; }
+.thrive h2 { color: var(--lr-black); margin: 18px 0 36px; }
+.thrive ul { display: flex; flex-direction: column; gap: 16px; }
+.thrive li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 14px;
+  font-size: 18px;
+  color: var(--lr-warm-6);
+  line-height: 1.5;
+}
+.thrive li::before {
+  content: '';
+  width: 8px; height: 8px;
+  margin-top: 11px;
+  border-radius: 50%;
+  background: var(--lr-green);
+}
+
+/* ---------- 10. CTA BAND ---------- */
+.cta-band { background: var(--lr-green); padding: clamp(56px, 8vw, 80px) 0; text-align: center; }
+.cta-band h2 { color: var(--lr-black); margin-bottom: 48px; }
+.cta-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: left;
+}
+.cta-card {
+  display: block;
+  background: var(--lr-green-12);
+  color: var(--lr-white);
+  padding: 32px;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: background .15s ease, transform .15s ease;
+}
+.cta-card:hover { background: var(--lr-green-14); transform: translateY(-2px); }
+.cta-card .cclabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--lr-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.cta-card .cchead {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--lr-white);
+  margin: 14px 0 8px;
+  line-height: 1.2;
+}
+.cta-card .ccsub { font-size: 14px; color: var(--lr-warm-3); }
+@media (max-width: 760px) {
+  .cta-cards { grid-template-columns: 1fr; }
+}
+
+/* ---------- 11. FOOTER ---------- */
+footer { background: var(--lr-warm-1); padding: 48px 0; }
+footer .inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--lr-warm-5);
+  letter-spacing: 0.04em;
+  flex-wrap: wrap;
+}
+
+/* ---------- containment for diagram ---------- */
+.diagram-host { position: relative; }
+</style>
+</head>
+<body>
+
+<!-- 0. UTILITY STRIP -->
+<div class="util">
+  <div class="inner">
+    <a href="#top" class="wordmark">/LiveRamp</a>
+    <span class="chip-status">INTERNAL · CGI · DRAFT MAY 2026</span>
+    <nav class="nav">
+      <a href="#role">The role</a>
+      <a href="#how">How we build</a>
+      <a href="#what">What we build</a>
+      <a href="#tenets">Tenets</a>
+      <a href="#apply" class="cta-inline">Apply →</a>
+    </nav>
+  </div>
+</div>
+
+<!-- 1. HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="eyebrow">Principal · AI Innovation Lead · Customer Growth & Insights</div>
+        <h1>We've got the people who know what to build.
+Now we need someone to help them build it.</h1>
+        <p class="lede">I'm hiring a Principal AI Innovation Lead to use AI to build tools that make cleanroom collaboration easy and scalable — and to empower others to do the same.</p>
+        <div class="byline">Scott Baker · CGI · LiveRamp</div>
+        <div class="cta-row">
+          <a href="#apply" class="btn-primary">Apply via Workday →</a>
+          <a href="#apply" class="btn-secondary">or DM me on Slack</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-card-stage">
+          <div class="peek-card">
+            <div class="corner-badge">A</div>
+            <div class="icon-sq"></div>
+            <div class="pc-title">No-code</div>
+            <div class="pc-sub">Web- or app-based</div>
+            <div class="chip-row">
+              <span class="chip">Workshop.ai</span>
+              <span class="chip">Claude Cowork</span>
+              <span class="chip">Lovable.dev</span>
+              <span class="chip">Glean</span>
+              <span class="chip">Google AI Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. WHY THIS ROLE EXISTS -->
+<section class="why" id="role">
+  <div class="container">
+    <div class="col">
+      <div class="eyebrow">Why this role exists</div>
+      <h2>AI just empowered a new cohort of builders inside LiveRamp.</h2>
+      <p>AI has empowered a new cohort of builders: the commercial team. Sales, customer experience, implementation, SEs, growth strategists, collaboration architects. These users have firsthand knowledge of the things that make our customers' lives difficult, and the barriers that make cleanroom collaboration slow and painful. Previously, these teams were often powerless to build the solutions they needed. The path to fix the issue always required resources from product and engineering, who had no resources to spare.</p>
+      <p>Now, tools like Claude Code, Cursor, and Workshop.ai have made it possible for non-engineers with domain expertise to prototype real, working software, often in a matter of hours. Real enough to validate ideas, automate manual work, remove friction, consolidate knowledge, and ultimately create more automated and scalable workflows for our customers and our colleagues.</p>
+      <div class="pull">
+        <p>"Right now, we have the capacity to create these solutions. We're missing an established path to do so safely, with structure, guidance, and purpose. This role is the playbook."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. FOCUS 80/20 -->
+<section class="focus">
+  <div class="focus-grid">
+    <div class="focus-block focus-left">
+      <div class="label">Internal · 80%</div>
+      <div class="bignum">80</div>
+      <h3>Empower the team. Build the tools. Lay the foundations.</h3>
+      <div class="focus-rows">
+        <div class="focus-row">
+          <span class="row-label">Empower our team</span>
+          <span class="row-text">Foster AI curiosity and a bias toward building. Design an evolving curriculum. Showcase the art of the possible (and the pitfalls of slop).</span>
+        </div>
+        <div class="focus-row">
+          <span class="row-label">Build high-value tools</span>
+          <span class="row-text">Apps, agents, and systems that target high-friction, high-repetition tasks. Success equals hours saved and speed to customer value.</span>
+        </div>
+        <div class="focus-row">
+          <span class="row-label">Assemble the blocks</span>
+          <span class="row-text">Partner with product, engineering, infosec, and BT so others can bring their ideas to life.</span>
+        </div>
+      </div>
+    </div>
+    <div class="focus-block focus-right">
+      <div class="label">External · 20%</div>
+      <div class="bignum">20</div>
+      <h3>Grow the network through agencies.</h3>
+      <p>A focused BD and solution-design motion to the highest-leverage external builders we have. Agencies turn our agentic infrastructure into a steady stream of new nodes and edges in the cleanroom network.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. TOOLS vs INFRASTRUCTURE -->
+<section class="tvi" id="how">
+  <div class="container">
+    <div class="eyebrow">Two distinct decisions</div>
+    <h2>Tools <em>vs.</em> Infrastructure</h2>
+    <p class="sub">Two independent questions: what you build with, and where it runs. Not every combination is valid. The diagram below shows which tools can target which infrastructure.</p>
+
+    <div class="diagram-host">
+      <div class="diagram">
+        <div class="dcol dcol-left">
+          <div class="dcol-head">Building tools / What you build with</div>
+          <div class="dcard" id="cardA">
+            <div class="corner-letter">A</div>
+            <div class="icon-sq"></div>
+            <div class="dc-title">No-code</div>
+            <div class="dc-sub">Web- or app-based</div>
+            <div class="chip-row">
+              <span class="chip">Workshop.ai</span>
+              <span class="chip">Claude Cowork</span>
+              <span class="chip">Lovable.dev</span>
+              <span class="chip">Glean</span>
+              <span class="chip">Google AI Studio</span>
+            </div>
+          </div>
+          <div class="mobile-connector" aria-hidden="true"></div>
+          <div class="dcard" id="cardB">
+            <div class="corner-letter">B</div>
+            <div class="icon-sq"></div>
+            <div class="dc-title">IDE / CLI</div>
+            <div class="dc-sub">Editor- or terminal-based</div>
+            <div class="chip-row">
+              <span class="chip">Cursor</span>
+              <span class="chip">Claude Code</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dcol dcol-mid" aria-hidden="true"></div>
+
+        <div class="dcol dcol-right">
+          <div class="dcol-head">Backend infrastructure / Where it runs</div>
+          <div class="dcard dark" id="card1">
+            <span class="pill-tag">EXTERNAL</span>
+            <div class="icon-sq"></div>
+            <div class="dc-title">Vendor-hosted</div>
+            <div class="dc-sub">Only works with vendor build.</div>
+            <p class="dc-body">Runs on the vendor's own platform. A Workshop.ai app stays in Workshop.ai. We don't manage the infra; the vendor does.</p>
+          </div>
+          <div class="dcard dark" id="card2">
+            <span class="pill-tag">INTERNAL</span>
+            <div class="icon-sq"></div>
+            <div class="dc-title">LiveRamp-hosted</div>
+            <div class="dc-sub">Vibe-coded tools</div>
+            <p class="dc-body">A LiveRamp-managed sandbox for prototypes and internal tools. Lighter governance, controlled access, lifecycle expectations match the prototype's purpose.</p>
+          </div>
+          <div class="dcard dark" id="card3">
+            <span class="pill-tag">PRODUCTION</span>
+            <div class="icon-sq"></div>
+            <div class="dc-title">LiveRamp-hosted</div>
+            <div class="dc-sub">Production-grade products</div>
+            <p class="dc-body">Production environments serving customers. Full SDLC, security, compliance, and operational ownership apply. Only IDE/CLI workflows can target this.</p>
+          </div>
+        </div>
+
+        <!-- SVG flow lines overlay -->
+        <svg class="flow-svg" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+          <!-- A -> 1 -->
+          <path d="M 470 110 C 560 110, 540 80, 620 80" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <!-- A -> 2 -->
+          <path d="M 470 130 C 560 130, 540 280, 620 280" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <!-- B -> 2 -->
+          <path d="M 470 420 C 560 420, 540 320, 620 320" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <!-- B -> 3 -->
+          <path d="M 470 440 C 560 440, 540 520, 620 520" fill="none" stroke="#32DB86" stroke-width="2" stroke-linecap="round"/>
+          <!-- termini -->
+          <circle cx="470" cy="110" r="4" fill="#32DB86"/>
+          <circle cx="470" cy="130" r="4" fill="#32DB86"/>
+          <circle cx="470" cy="420" r="4" fill="#32DB86"/>
+          <circle cx="470" cy="440" r="4" fill="#32DB86"/>
+          <circle cx="620" cy="80" r="4" fill="#32DB86"/>
+          <circle cx="620" cy="280" r="4" fill="#32DB86"/>
+          <circle cx="620" cy="320" r="4" fill="#32DB86"/>
+          <circle cx="620" cy="520" r="4" fill="#32DB86"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. SCOPE MATRIX -->
+<section class="matrix-section" id="what">
+  <div class="container">
+    <div class="eyebrow">What's in scope</div>
+    <h2>Vibe Coding Scope Matrix</h2>
+    <p class="sub">Audience by data sensitivity. Bright cells are active territory. Mid-greens require InfoSec sign-off. The dark cell is engineering-only.</p>
+
+    <div class="matrix-right">
+      <div class="what-label">What data does it touch?</div>
+      <div class="matrix-wrap">
+        <div class="who-label">Who has access?</div>
+        <div class="matrix">
+          <!-- Row 1: header -->
+          <div></div>
+          <div class="mh"><strong>None</strong>All dummy data, public data, or no data at all.</div>
+          <div class="mh"><strong>LiveRamp business data</strong>Salesforce, client usage, Slack, JIRA, Google Workspace.</div>
+          <div class="mh"><strong>LiveRamp customer data</strong>Data connections, cleanrooms, audience segments.</div>
+
+          <!-- Row 2: Internal Only -->
+          <div class="row-label-cell">Internal Only</div>
+          <div class="cell bright">
+            <span class="cell-mobile-head">Internal Only · None</span>
+            <ul>
+              <li>Off-site artifacts, ideas, documentation, diagrams used in the same way as docs, sheets, slides, lucidchart</li>
+              <li>Apps to communicate and collaborate on ideas internally</li>
+              <li>Internal apps</li>
+              <li>Prototypes</li>
+            </ul>
+          </div>
+          <div class="cell mid">
+            <span class="cell-mobile-head">Internal Only · Business data</span>
+            <ul>
+              <li>Private data apps, dashboards</li>
+              <li>Network graph (nodes + edges)</li>
+              <li>Agents like glean.txt, built in a UI</li>
+              <li>Internal websites</li>
+              <li>Account plan creation</li>
+              <li>AI for Google Workspace</li>
+              <li>Pricing calculator, feasibility calculator</li>
+              <li>Documentation</li>
+              <li>FAQs</li>
+              <li>Slickbots</li>
+            </ul>
+          </div>
+          <div class="cell soft">
+            <span class="cell-mobile-head">Internal Only · Customer data</span>
+            <ul>
+              <li>Implementation agent for TSol</li>
+              <li>Ad hoc customer troubleshooting tools</li>
+              <li>Data schema validation and QA</li>
+              <li>Daily usage bot</li>
+            </ul>
+          </div>
+
+          <!-- Row 3: Client-Facing -->
+          <div class="row-label-cell">Client-Facing</div>
+          <div class="cell soft">
+            <span class="cell-mobile-head">Client-Facing · None</span>
+            <ul>
+              <li>Prototypes</li>
+              <li>Wizard</li>
+              <li>Synthetic data creation and mock dashboards</li>
+              <li>Value Calculator</li>
+            </ul>
+          </div>
+          <div class="cell soft">
+            <span class="cell-mobile-head">Client-Facing · Business data</span>
+            <ul>
+              <li>Implementation project plan</li>
+              <li>Collaboration pipeline</li>
+              <li>Collaboration playbook</li>
+              <li>Interactive QBR deck</li>
+              <li>Interactive proposal on website</li>
+              <li>Customer usage reports</li>
+            </ul>
+          </div>
+          <div class="cell oos">
+            <span class="cell-mobile-head" style="color: var(--lr-warm-3);">Client-Facing · Customer data</span>
+            <div class="oos-title">Out of scope</div>
+            <p>This should be built by the product.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. NORTH STARS -->
+<section class="stars">
+  <div class="container">
+    <div class="eyebrow on-dark">North stars</div>
+    <h2 style="margin-top: 16px;">How success is measured.</h2>
+    <div class="stars-top">
+      <div class="stat">
+        <div class="stat-num">01</div>
+        <div class="stat-head">Hours saved per user per week</div>
+        <p>If we're not buying back time, we're not winning.</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num">02</div>
+        <div class="stat-head">Edges per node, month over month</div>
+        <p>More agency-led integrations means more nodes, more edges, more network.</p>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pn">01</div>
+        <div class="pbody">
+          <div class="pname">Empowering the team</div>
+          <div class="pmetrics">Active builders in CGI · Tools built by teammates and put into use</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pn">02</div>
+        <div class="pbody">
+          <div class="pname">Building high-value tools</div>
+          <div class="pmetrics">Hours saved per teammate per week · Adoption (WAU/MAU on internal tools)</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pn">03</div>
+        <div class="pbody">
+          <div class="pname">Building blocks for others</div>
+          <div class="pmetrics">Sandbox live with documented guardrails · Number of internal builders using shared infra</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pn">04</div>
+        <div class="pbody">
+          <div class="pname">Growing the network through agencies</div>
+          <div class="pmetrics">Agency integrations live · Edges added through agency-led integrations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. PARTNERSHIPS -->
+<section class="partners">
+  <div class="container">
+    <div class="eyebrow">Partnerships</div>
+    <h2>This role is structurally cross-functional.</h2>
+
+    <div class="partner-row">
+      <div class="plabel">CGI / Home team</div>
+      <div>
+        <div class="pmain">My home, first set of users, idea pipeline.</div>
+        <div class="psub">Tight, daily. CGI is where I incubate, validate, and iterate.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">Commercial</div>
+      <div>
+        <div class="pmain">Second ring of users. Future builders once Pillar 1 matures.</div>
+        <div class="psub">Sales, CS, Solutions Engineering, TSol.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">Partnerships · Agency Sales</div>
+      <div>
+        <div class="pmain">Long-term owners of agency relationships.</div>
+        <div class="psub">I'm the catalyst on technical and use-case design. They own the relationship and commercial structure.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">Product</div>
+      <div>
+        <div class="pmain">Co-design partners on agentic infrastructure.</div>
+        <div class="psub">Three flows: build on MCP and the knowledge graph, prototypes that inspire product direction, and graduation when a tool earns broad adoption.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">Engineering</div>
+      <div>
+        <div class="pmain">Infrastructure partners. Durable, secure, scalable.</div>
+        <div class="psub">Also the team that keeps us out of trouble.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">Business Technology</div>
+      <div>
+        <div class="pmain">Tooling and access.</div>
+        <div class="psub">Our partner on standing up the tools layer for every level of technical expertise.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">InfoSec</div>
+      <div>
+        <div class="pmain">Guardrails and approval workflows.</div>
+        <div class="psub">Engaged early, not late. Sandboxes, scoped credentials, audit logs, tier-aware reviews.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">Legal · Procurement</div>
+      <div>
+        <div class="pmain">Contracts and licensing.</div>
+        <div class="psub">As needed for new tooling, vendor reviews, and customer-facing prototype agreements.</div>
+      </div>
+    </div>
+    <div class="partner-row">
+      <div class="plabel">People · Enablement</div>
+      <div>
+        <div class="pmain">Training reach.</div>
+        <div class="psub">As Pillar 1 matures, scale curriculum delivery and integrate vibe coding training into onboarding.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. TENETS -->
+<section class="tenets" id="tenets">
+  <div class="container">
+    <div class="eyebrow on-dark">Tenets</div>
+    <h2>If I'm drifting, point at one of these.</h2>
+    <div class="tenet-list">
+      <div class="tenet">
+        <div class="tn">01</div>
+        <div>
+          <div class="tline">Slow is smooth and smooth is fast.</div>
+          <div class="tsub">Take a breath. Think before I vibe.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <div class="tn">02</div>
+        <div>
+          <div class="tline">Feedback before fuss.</div>
+          <div class="tsub">Don't burn cycles perfecting a tool before validating it drives value.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <div class="tn">03</div>
+        <div>
+          <div class="tline">Build for outcomes, not curiosity.</div>
+          <div class="tsub">Quantifiable value over flashy UI.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <div class="tn">04</div>
+        <div>
+          <div class="tline">Measure hours saved, not apps shipped.</div>
+          <div class="tsub">One tool everyone uses daily beats ten that sit on a shelf.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <div class="tn">05</div>
+        <div>
+          <div class="tline">When in doubt, reach out.</div>
+          <div class="tsub">Visibility, accountability, and transparency earn the right to go bigger.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <div class="tn">06</div>
+        <div>
+          <div class="tline">Step up and own it.</div>
+          <div class="tsub">Don't rely on others to trailblaze the hard work.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <div class="tn">07</div>
+        <div>
+          <div class="tline">WE'LL DO IT LIVE.</div>
+          <div class="tsub">Push for in-person and on-the-fly working sessions. It's the best way to learn and teach.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. WHO'D THRIVE -->
+<section class="thrive">
+  <div class="container">
+    <div class="col">
+      <div class="eyebrow">Who'd thrive</div>
+      <h2>You'll feel at home in this role if…</h2>
+      <ul>
+        <li>You can hold a value hypothesis in one hand and a working prototype in the other, and ship the prototype before the hypothesis hardens.</li>
+        <li>You see a flashy demo that nobody uses and feel a small, productive embarrassment.</li>
+        <li>You believe vibe coding is a craft, not a shortcut. Slow is smooth, smooth is fast.</li>
+        <li>You like being the person who sets the guardrails so other people can move faster.</li>
+        <li>You're at home with InfoSec, BT, Product, Engineering, and Sales in the same week.</li>
+        <li>You'd rather teach ten people to build than ship ten tools yourself.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10. CTA BAND -->
+<section class="cta-band" id="apply">
+  <div class="container">
+    <h2>Ready? Three ways in.</h2>
+    <div class="cta-cards">
+      <a href="#" class="cta-card">
+        <div class="cclabel">01 — Apply</div>
+        <div class="cchead">Apply via Workday →</div>
+        <div class="ccsub">Internal mobility welcome.</div>
+      </a>
+      <a href="#" class="cta-card">
+        <div class="cclabel">02 — DM</div>
+        <div class="cchead">Slack Scott Baker →</div>
+        <div class="ccsub">Quick chat, no formal interview.</div>
+      </a>
+      <a href="#" class="cta-card">
+        <div class="cclabel">03 — Refer</div>
+        <div class="cchead">Refer someone →</div>
+        <div class="ccsub">Know the right person? Send them this page.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 11. FOOTER -->
+<footer>
+  <div class="inner">
+    <div>/LiveRamp · Customer Growth & Insights · Internal · Draft May 2026</div>
+    <div>Role owner: Scott Baker · Brand: brand@liveramp.com</div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/bootstrap-playwright.sh",
+            "timeout": 180
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:*.github.io)",
+      "WebFetch(domain:*.netlify.app)",
+      "WebFetch(domain:*.vercel.app)",
+      "WebFetch(domain:*.pages.dev)",
+      "WebFetch(domain:*.surge.sh)",
+      "Bash(npx playwright *)",
+      "Bash(npx -y playwright *)",
+      "Bash(node ~/.claude/playwright/*)",
+      "Bash(node .claude/playwright/*)"
+    ]
+  },
+  "sandbox": {
+    "network": {
+      "allowedDomains": [
+        "*.github.io",
+        "*.netlify.app",
+        "*.vercel.app",
+        "*.pages.dev",
+        "*.surge.sh",
+        "127.0.0.1",
+        "localhost"
+      ]
+    }
+  }
+}

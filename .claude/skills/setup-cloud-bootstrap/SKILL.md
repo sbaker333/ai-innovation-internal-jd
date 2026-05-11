@@ -3,113 +3,86 @@ name: setup-cloud-bootstrap
 description: Use this skill when the user wants to set up Claude Code on the web (cloud) for a fresh repository — specifically to install Playwright for screenshots, open the sandbox network allowlist for common static-hosting domains (GitHub Pages, Netlify, Vercel, Cloudflare Pages, surge.sh), and register a SessionStart hook so the bootstrap runs automatically in every new cloud session. Invoke when the user says things like "bootstrap this repo for Claude Code on the web", "make screenshots work in cloud sessions", "set up the sandbox for previewing deployed sites", or "make this work the next time I open it in a fresh session".
 ---
 
-# Cloud bootstrap setup
+# Cloud bootstrap (template-clone workflow)
 
-This skill writes a project-scoped `.claude/` bootstrap so the next cloud session for this repo wakes up with:
+This skill copies the canonical `.claude/` bootstrap directory from a
+personal template repo into the current project. Once committed, the
+next fresh cloud session on this repo wakes up with:
 
 - Playwright + chromium ready (screenshot helper at `~/.claude/playwright/shoot.js`)
 - Sandbox network allowlist opened for common static-host domains
-- WebFetch + Bash permissions pre-allowed for the same hosts
-- A SessionStart hook that runs the install script on every fresh session
+- WebFetch + Bash permissions pre-allowed for those hosts
+- A SessionStart hook that re-runs the install on every fresh session
 
-The install is idempotent — it skips work when a marker file is already in place, so warm starts cost ~10ms.
+The install is idempotent — warm starts cost ~10ms because a marker file short-circuits the install path.
+
+## Template repo
+
+```
+TEMPLATE_REPO_URL = https://github.com/sbaker333/claude-cloud-bootstrap
+```
+
+If you find a `TEMPLATE_REPO_URL` placeholder still in this file when you read it, ask the user for the actual URL and update this skill before proceeding.
 
 ## When to use
-
-Use this skill when the user wants Claude Code on the web to be able to take screenshots of and curl their deployed sites, without needing manual setup each session. Typical triggers:
 
 - "Set this repo up for cloud bootstrap"
 - "Make screenshots work next session"
 - "I want Playwright + GitHub Pages access in every fresh session for this project"
 
-Do NOT use this skill for:
-- Local Claude Code on a developer machine — the user's local `~/.claude/` already persists across sessions, so no bootstrap is needed.
-- Bootstrapping things unrelated to web previewing (use other skills or direct edits).
+Do NOT use this skill for local Claude Code on a developer machine — the user's local `~/.claude/` already persists across sessions, so no bootstrap is needed there.
 
 ## Workflow
 
-1. **Confirm scope.** Confirm the user wants this committed to the repo (project-scoped, applies to anyone who clones). If they want it global across all projects, tell them Claude Code on the web has no persistent user-global settings store — they'd need to commit `.claude/` into each repo, or maintain a personal dotfiles repo.
+1. **Confirm scope and check for conflicts.** If `.claude/` already exists in the project, read what's there. If `.claude/settings.json` exists, plan to merge (preserve any existing hooks and permissions) rather than overwrite. If `.claude/bootstrap-playwright.sh` exists with different content, ask the user before replacing.
 
-2. **Check for conflicts.** Before writing, check whether `.claude/settings.json` already exists in the project. If yes, read it and merge — preserve any existing hooks (especially Stop hooks) and permission entries. Do NOT clobber.
-
-3. **Write `.claude/settings.json`** (merging if it already exists) with this structure. The hook command path is relative to the repo root.
-
-   ```json
-   {
-     "$schema": "https://json.schemastore.org/claude-code-settings.json",
-     "hooks": {
-       "SessionStart": [
-         {
-           "matcher": "",
-           "hooks": [
-             {
-               "type": "command",
-               "command": ".claude/bootstrap-playwright.sh",
-               "timeout": 180
-             }
-           ]
-         }
-       ]
-     },
-     "permissions": {
-       "allow": [
-         "WebFetch(domain:*.github.io)",
-         "WebFetch(domain:*.netlify.app)",
-         "WebFetch(domain:*.vercel.app)",
-         "WebFetch(domain:*.pages.dev)",
-         "WebFetch(domain:*.surge.sh)",
-         "Bash(npx playwright *)",
-         "Bash(npx -y playwright *)",
-         "Bash(node ~/.claude/playwright/*)",
-         "Bash(node .claude/playwright/*)"
-       ]
-     },
-     "sandbox": {
-       "network": {
-         "allowedDomains": [
-           "*.github.io",
-           "*.netlify.app",
-           "*.vercel.app",
-           "*.pages.dev",
-           "*.surge.sh",
-           "127.0.0.1",
-           "localhost"
-         ]
-       }
-     }
-   }
+2. **Clone the template** into a temp dir:
+   ```bash
+   rm -rf /tmp/cc-template
+   git clone --depth=1 "$TEMPLATE_REPO_URL" /tmp/cc-template
    ```
 
-   Ask the user before adding any extra domains. The deploy hosts above are the common cases; add more sparingly to keep the egress surface tight.
+   If the clone fails with auth errors (private template repo from a different account), fall back to fetching the raw files via `curl` from `raw.githubusercontent.com` — the user can paste the raw URLs.
 
-4. **Write `.claude/bootstrap-playwright.sh`** with the install + helper-write logic. The script:
-   - Creates `~/.claude/playwright/` (sandbox-ephemeral but fast to rebuild).
-   - Installs `playwright@1.56.1` to match pre-bundled chromium at `/opt/pw-browsers/chromium-1194` when present (avoids hitting the network for browser downloads). Falls back to `playwright` latest + `playwright install chromium` otherwise.
-   - Writes a screenshot helper to `~/.claude/playwright/shoot.js` with a small CLI: `node shoot.js <url> <out.png> [desktop|mobile|WxH]`. Filenames containing `-full` produce a full-page capture.
-   - Emits a SessionStart hook JSON payload with `hookSpecificOutput.additionalContext` so the model immediately knows where the helper lives and how to call it.
+3. **Copy `.claude/` into the current repo** (merging settings.json if necessary):
+   ```bash
+   mkdir -p .claude
+   cp -r /tmp/cc-template/.claude/. .claude/
+   chmod +x .claude/bootstrap-playwright.sh
+   ```
 
-   The full script body is in `.claude/bootstrap-playwright.sh` in this repository — copy it verbatim into the new project. (Or read it from `/home/user/ai-innovation-internal-jd/.claude/bootstrap-playwright.sh` if you're inside Claude Code with access to that path; otherwise reconstruct from the template in this skill.)
+4. **Run the bootstrap once** to verify it works in the current sandbox:
+   ```bash
+   .claude/bootstrap-playwright.sh > /tmp/hook-output.json 2>&1
+   ```
+   Confirm the JSON contains `hookSpecificOutput.additionalContext` and that `~/.claude/playwright/shoot.js` exists.
 
-5. **Make the script executable**: `chmod +x .claude/bootstrap-playwright.sh`.
+5. **Smoke-test the screenshot helper** against a known-good public URL:
+   ```bash
+   node ~/.claude/playwright/shoot.js https://example.com /tmp/smoke.png desktop
+   ```
+   Confirm a non-zero-byte PNG lands at `/tmp/smoke.png`.
 
-6. **Run it once to verify**: `.claude/bootstrap-playwright.sh > /tmp/hook-output.json` and check that the JSON output contains the `additionalContext` line. Then verify `~/.claude/playwright/shoot.js` exists and `node ~/.claude/playwright/shoot.js` prints its usage line.
+6. **Commit and push** the new files (`.claude/settings.json`, `.claude/bootstrap-playwright.sh`, and the skill copy if present) to the project's current branch.
 
-7. **Sanity-check the screenshot helper** by capturing a known-good page (e.g. an existing local HTML file or a public URL): `node ~/.claude/playwright/shoot.js https://example.com /tmp/smoke.png desktop`. Confirm a PNG is produced.
-
-8. **Commit and push**. Stage the two new files (`.claude/settings.json` and `.claude/bootstrap-playwright.sh`) and commit with a clear message. Push to the current branch. Do NOT commit `~/.claude/playwright/` — that's the sandbox-side install, not project content.
-
-9. **Tell the user what to do next.** The hook does not fire retroactively in the current session — it activates in the *next* cloud session on this repo. Suggest: end this session, open a fresh one, and confirm the SessionStart hook emits the additionalContext line and that a curl to one of the allowlisted domains returns 200 (not 403).
+7. **Tell the user what to do next.** The SessionStart hook does not fire retroactively. It activates in the *next* fresh cloud session on this repo. Suggest ending the current session and opening a new one to verify.
 
 ## Caveats to surface to the user
 
-- **Project scope only.** This bootstrap applies only to the repo it's committed to. If the user wants it in every repo, they need to repeat the setup (or commit `.claude/` from a template). Claude Code on the web does not currently expose a persistent user-global settings mechanism that survives sandbox resets.
+- **Project-scoped.** This bootstrap applies only to the repo it's committed to. Other repos need to be set up separately (re-invoke this skill there).
 
-- **Network allowlist takes effect on next session.** Adding domains to `sandbox.network.allowedDomains` mid-session does not hot-reload. The current session's allowlist remains whatever it was at session start.
+- **Network allowlist takes effect on next session.** Adding domains to `sandbox.network.allowedDomains` mid-session does not hot-reload.
 
 - **Sandbox-side state is ephemeral.** `~/.claude/playwright/` is recreated every session by the hook. The npm install (~3s) and chromium binary check are the bootstrap's recurring cost.
 
-- **Don't add the install dir to source control.** Only the two files in `.claude/` (settings.json and bootstrap-playwright.sh) belong in the repo. Add `.claude/settings.local.json` to `.gitignore` if you anticipate local overrides.
+- **Don't commit `~/.claude/` artifacts.** Only `.claude/` (the project-scoped directory) belongs in version control.
 
-## File contents reference
+- **Template repo must be reachable.** If `TEMPLATE_REPO_URL` becomes private or moves, this skill breaks. Keep the template repo public, or update the URL here when it moves.
 
-If the canonical bootstrap script is not accessible at install time (e.g. you're invoking this skill in a totally fresh environment with no other Claude Code repo to copy from), the full content of `.claude/bootstrap-playwright.sh` should match the template in this skill's repository, which mirrors the script in `/home/user/ai-innovation-internal-jd/.claude/bootstrap-playwright.sh`. The script is roughly 60 lines and self-contained — no external dependencies beyond `node`, `npm`, and `bash`.
+## Updating the template
+
+If the user wants to improve the bootstrap (new permissions, new sandbox domains, an updated install script), have them:
+
+1. Open a Claude Code on the web session against the template repo (`$TEMPLATE_REPO_URL`).
+2. Make the edits there, commit, push.
+3. The next time this skill runs in any other repo, the freshly-cloned template will pick up the improvements automatically. Existing bootstrapped repos do NOT auto-update — they have a snapshot. Suggest a periodic `git pull`-style refresh if drift becomes a problem.
